@@ -21,10 +21,11 @@ import java.util.List;
 //  Implement a new method to delete the corresponding item in the list
 // TODO 08. Create a new method to add a new item on the top of the list. Use the DataGenerator class to create the new item to be added.
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements InboxAdapter.OnItemClickListener{
 
     private FloatingActionButton mFAB;
-
+    private InboxAdapter adapter;
+    private List<Inbox> inboxItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,22 +35,65 @@ public class MainActivity extends AppCompatActivity {
 
     private void initComponent() {
         // TODO 01. Generate the item list to be displayed using the DataGenerator class
-        List<Inbox> inboxItems = DataGenerator.getInboxData(this);
+        inboxItems = DataGenerator.getInboxData(this);
+
         // TODO 03. Do the setup of a new RecyclerView instance to display the item list properly
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        InboxAdapter adapter = new InboxAdapter(inboxItems); // Create your custom adapter
-        recyclerView.setAdapter(adapter);
+
         // TODO 04. Define the layout of each item in the list
         // TODO 09. Create a new instance of the created Adapter class and bind it to the RecyclerView instance created in step 03
+        adapter = new InboxAdapter(inboxItems, this);
+        recyclerView.setAdapter(adapter);
+
         mFAB = findViewById(R.id.fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO 10. Invoke the method created to a new item to the top of the list so it's
                 //  triggered when the user taps the Floating Action Button
+                Inbox newInboxItem = DataGenerator.getRandomInboxItem(MainActivity.this);
+                inboxItems.add(0, newInboxItem); // Add new item to the top of the list
+                adapter.notifyDataSetChanged(); // Notify the adapter of the data change
             }
         });
+    }
+    @Override
+    public void onItemClick(Inbox item) {
+        int previousSelectedPosition = -1;
+
+        // Find the previously selected item position and update its state
+        for (int i = 0; i < inboxItems.size(); i++) {
+            Inbox inboxItem = inboxItems.get(i);
+            if (inboxItem.isSelected()) {
+                inboxItem.setSelected(false);
+                previousSelectedPosition = i;
+                break;
+            }
+        }
+
+        // Find the clicked item position and update its state
+        int clickedPosition = inboxItems.indexOf(item);
+        item.setSelected(true);
+        // Notify the adapter of the changes in both previously selected and clicked items
+        if (previousSelectedPosition != -1) {
+            adapter.notifyItemChanged(previousSelectedPosition);
+        }
+        adapter.notifyItemChanged(clickedPosition);
+        //item.toggleSelection(); // Toggle the selection state
+        //adapter.notifyDataSetChanged(); // Notify the adapter of the data change
+        //int position = inboxItems.indexOf(item);
+
+        // Update the item's state in the data model (Inbox object)
+       // item.setSelected(!item.isSelected()); // Toggle the selection state
+
+        // Update the appearance of the clicked item in the RecyclerView
+        //adapter.notifyItemChanged(position);
+    }
+    @Override
+    public void onDeleteClick(Inbox item) {
+        inboxItems.remove(item);
+        adapter.notifyDataSetChanged(); // Notify adapter of the data change
     }
 
 }
