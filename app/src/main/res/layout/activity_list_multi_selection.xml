@@ -7,6 +7,14 @@
     android:layout_height="match_parent">
 
     <!-- TODO 02. Add RecyclerView element here -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:scrollingCache="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

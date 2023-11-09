@@ -1,11 +1,18 @@
 package com.ualr.recyclerviewassignment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ualr.recyclerviewassignment.Utils.DataGenerator;
+import com.ualr.recyclerviewassignment.Utils.InboxAdapter;
+import com.ualr.recyclerviewassignment.model.Inbox;
+
+import java.util.List;
 
 // TODO 05. Create a new Adapter class and the corresponding ViewHolder class in a different file. The adapter will be used to populate
 //  the recyclerView and manage the interaction with the items in the list
@@ -27,7 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void initComponent() {
         // TODO 01. Generate the item list to be displayed using the DataGenerator class
+        List<Inbox> inboxItems = DataGenerator.getInboxData(this);
         // TODO 03. Do the setup of a new RecyclerView instance to display the item list properly
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        InboxAdapter adapter = new InboxAdapter(inboxItems); // Create your custom adapter
+        recyclerView.setAdapter(adapter);
         // TODO 04. Define the layout of each item in the list
         // TODO 09. Create a new instance of the created Adapter class and bind it to the RecyclerView instance created in step 03
         mFAB = findViewById(R.id.fab);
