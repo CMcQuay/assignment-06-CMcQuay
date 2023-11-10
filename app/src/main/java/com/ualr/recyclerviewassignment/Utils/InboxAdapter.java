@@ -105,7 +105,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.ViewHolder> 
             // Change the background color and textCircle based on the selection state
             if (item.isSelected()) {
                 // Change the background color to grey
-                itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.grey_40));
+                itemView.setBackgroundColor(ContextCompat.getColor(itemView.getContext(), R.color.grey_20));
 
                 // Change the text inside the gray circle to "X"
                 textCircle.setText("X");

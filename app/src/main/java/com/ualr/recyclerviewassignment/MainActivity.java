@@ -80,15 +80,6 @@ public class MainActivity extends AppCompatActivity implements InboxAdapter.OnIt
             adapter.notifyItemChanged(previousSelectedPosition);
         }
         adapter.notifyItemChanged(clickedPosition);
-        //item.toggleSelection(); // Toggle the selection state
-        //adapter.notifyDataSetChanged(); // Notify the adapter of the data change
-        //int position = inboxItems.indexOf(item);
-
-        // Update the item's state in the data model (Inbox object)
-       // item.setSelected(!item.isSelected()); // Toggle the selection state
-
-        // Update the appearance of the clicked item in the RecyclerView
-        //adapter.notifyItemChanged(position);
     }
     @Override
     public void onDeleteClick(Inbox item) {
